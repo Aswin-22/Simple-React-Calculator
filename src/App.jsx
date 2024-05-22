@@ -80,11 +80,11 @@ function reducer(state, {type, payload}){
         return{
           ...state,
           curOperand: null,
-          ovverwrite: null,
+          ovverwrite: false,
         }
       }
-
-      if (state.curOperand.length == 1){
+      if (state.curOperand == null) return state
+      if (state.curOperand.length === 1){
         return {
           ...state,
           curOperand: null
@@ -93,7 +93,7 @@ function reducer(state, {type, payload}){
       
       return {
         ...state,
-        curOperand: state.curOperand.slice(0,-1)
+        curOperand: state.curOperand.slice(0,-1),
       }
 
     case ACTIONS.CLEAR:
@@ -149,7 +149,9 @@ function App() {
         <div className="current">{formatOperand(curOperand)}</div>
       </div>
       <button className="span-two" onClick={() => {dispatch({type: ACTIONS.CLEAR})}}>AC</button>
-      <button>DEL</button>
+      <button onClick={() => {
+        dispatch({type: ACTIONS.DELETE_DIGIT})
+      }}>DEL</button>
       <OperationButton dispatch={dispatch} operation = '÷' />
       <DigitButton dispatch = {dispatch} digit='1'/>
       <DigitButton dispatch = {dispatch} digit='2'/>
